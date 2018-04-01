@@ -1,0 +1,35 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: download composer
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/installer
+  tags: composer
+
+- name: install composer
+  shell: cat /tmp/installer | /usr/bin/php -- --install-dir=/usr/local/bin
+  args:
+    creates: /usr/bin/composer
+  tags: composer
+
+- name: rename composer.phar to composer
+  shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer
+  args:
+    creates: /usr/local/bin/composer
+  tags: composer
+
+- name: make composer executable
+  file:
+    path: /usr/local/bin/composer
+    mode: a+x
+    state: file
+  tags: composer
+
+- name: Install prestissimo plugin for parallel composer package installation
+  command: composer global require hirak/prestissimo --prefer-dist
+  become: true
+  become_user: "{{ item }}"
+  with_items:
+    - "{{ web_user }}"
+    - root

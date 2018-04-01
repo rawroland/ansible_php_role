@@ -1,0 +1,4 @@
+---
+- include_vars: "{{ env }}.yml"
+- include_tasks: install_php.yml
+- include_tasks: install_composer.yml

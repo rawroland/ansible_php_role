@@ -1,0 +1,4 @@
+- name: Add the php repository
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    update_cache: yes
