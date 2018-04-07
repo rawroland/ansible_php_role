@@ -25,11 +25,3 @@
     mode: a+x
     state: file
   tags: composer
-
-- name: Install prestissimo plugin for parallel composer package installation
-  command: composer global require hirak/prestissimo --prefer-dist
-  become: true
-  become_user: "{{ item }}"
-  with_items:
-    - "{{ web_user }}"
-    - root
